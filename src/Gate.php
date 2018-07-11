@@ -47,6 +47,18 @@ class Gate
     }
 
     /**
+     * Return configuration array (for Javascript)
+     *
+     * @param Payment $payment
+     *
+     * @return array
+     */
+    public function getConfigurationObject(Payment $payment): array
+    {
+        return $this->paymentPageUrlBuilder->getConfiguration($payment);
+    }
+
+    /**
      * Callback handler
      *
      * @param string $data RAW string data from Gate

@@ -36,6 +36,15 @@ $url = $gate->getPurchasePaymentPageUrl($payment);
 
 `$url` here is the signed URL.
 
+### Get Javascript object for configuration
+```php
+$gate = new ecommpay\Gate('secret');
+$payment = new ecommpay\Payment(100);
+$payment->setPaymentAmount(1000)->setPaymentCurrency('RUB');
+$config = $gate->getConfiguration($payment);
+
+```
+
 ### Handle callback from Ecommpay
 
 You'll need to autoload this code in order to handle notifications:

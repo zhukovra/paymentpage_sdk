@@ -22,4 +22,16 @@ class PaymentPageTest extends \PHPUnit\Framework\TestCase
             $url
         );
     }
+
+    public function testGetConfuration()
+    {
+        $handler = new SignatureHandler('secret');
+        $paymentPage = new PaymentPage($handler);
+        $payment = new Payment(100);
+        $payment->setPaymentId('ABC');
+        $configuration = $paymentPage->getConfiguration($payment);
+        self::assertArrayHasKey('signature', $configuration);
+        self::assertArrayHasKey('project_id', $configuration);
+        self::assertArrayHasKey('payment_id', $configuration);
+    }
 }

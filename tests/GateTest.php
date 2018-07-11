@@ -23,6 +23,11 @@ class GateTest extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($this->gate->getPurchasePaymentPageUrl(new Payment(100)));
     }
 
+    public function testGetConfigurationObject()
+    {
+        self::assertNotEmpty('signature', $this->gate->getConfigurationObject(new Payment(100)));
+    }
+
     public function testHandleCallback()
     {
         $callback = $this->gate->handleCallback(require __DIR__ . '/data/callback.php');

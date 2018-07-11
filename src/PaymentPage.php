@@ -46,4 +46,21 @@ class PaymentPage
         return $this->baseUrl . '?'. http_build_query($payment->getParams()) . '&signature=' .
             $this->signatureHandler->sign($payment->getParams());
     }
+
+    /**
+     * Return configuration array (for Javascript)
+     *
+     * @param Payment $payment
+     *
+     * @return array
+     */
+    public function getConfiguration(Payment $payment): array
+    {
+        return array_merge(
+            $payment->getParams(),
+            [
+                'signature' => $this->signatureHandler->sign($payment->getParams()),
+            ]
+        );
+    }
 }
