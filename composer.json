@@ -12,6 +12,7 @@
         "psr-4": { "ecommpay\\": "src/" }
     },
     "require": {
+        "symfony/validator": "^4.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5||^7.2",
