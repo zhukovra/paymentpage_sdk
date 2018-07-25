@@ -3,15 +3,20 @@
 namespace ecommpay\gate\requests;
 
 use ecommpay\gate\blocks\BaseBlock;
+use ecommpay\gate\ValidatableTrait;
 
 abstract class BaseRequest
 {
+    use ValidatableTrait;
+
     /**
      * @var BaseBlock[]
      */
     private $blocks = [];
 
     abstract public function getRoute(): string;
+
+    abstract public function rules(): array;
 
     public function __construct(array $array = [])
     {
@@ -36,8 +41,14 @@ abstract class BaseRequest
     {
         foreach (BaseBlock::blocks() as $block) {
             $instance = new $block($values);
-            if ($instance->toArray()) {
+            if ($instance->export()) {
                 $this->blocks[] = $instance;
+            }
+        }
+
+        foreach ($values as $key => $value) {
+            if (property_exists(static::class, $key)) {
+                $this->{$key} = $value;
             }
         }
     }

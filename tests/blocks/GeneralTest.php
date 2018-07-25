@@ -19,6 +19,7 @@ class GeneralTest extends TestCase
 
     public function testValidateProjectId()
     {
-        self::assertCount(1, (new General(['project_id' => 1]))->validate());
+        $violations = (new General(['project_id' => 100]))->validate(['project_id']);
+        self::assertCount(0, $violations);
     }
 }

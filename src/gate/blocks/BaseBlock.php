@@ -2,11 +2,13 @@
 
 namespace ecommpay\gate\blocks;
 
-use Symfony\Component\Validator\ConstraintViolationInterface;
-use Symfony\Component\Validator\Validation;
+use ecommpay\gate\ExportableTrait;
+use ecommpay\gate\ValidatableTrait;
 
 abstract class BaseBlock
 {
+    use ValidatableTrait;
+    use ExportableTrait;
 
     public function __construct(array $values = [])
     {
@@ -43,55 +45,5 @@ abstract class BaseBlock
         });
 
         return $classes;
-    }
-
-    /**
-     * Returns array of not null properties
-     *
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $array = [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if ($value !== null) {
-                $array[$key] = $value;
-            }
-        }
-
-        return $array;
-    }
-
-    /**
-     * Return all violations for block
-     *
-     * @param array $propNames
-     * @return ConstraintViolationInterface[]
-     */
-    public function validate($propNames = []): array
-    {
-        $validator = Validation::createValidator();
-        $violations = [];
-
-        $properties = get_object_vars($this);
-
-        if ($propNames) {
-            $properties = array_filter(
-                $properties,
-                function ($key) use ($propNames) {
-                    return \in_array($key, $propNames, true);
-                },
-                ARRAY_FILTER_USE_KEY
-            );
-        }
-
-        foreach ($properties as $key => $value) {
-            $propViolations = $validator->validate($value, $this->rules()[$key] ?? []);
-            // check that - only one violation in summary
-            $violations = array_merge($violations, (array)$propViolations);
-        }
-
-        return $violations;
     }
 }

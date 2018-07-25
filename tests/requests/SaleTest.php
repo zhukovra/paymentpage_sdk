@@ -22,4 +22,13 @@ class SaleTest extends TestCase
         $request = new Sale(['project_id' => 1]);
         self::assertEquals([$block], $request->getBlocks());
     }
+
+    public function testValidateRecurringRegister()
+    {
+        $request = new Sale(['recurring_register' => '0']);
+        self::assertCount(1, $request->validate());
+
+        $request = new Sale(['recurring_register' => true]);
+        self::assertCount(0, $request->validate());
+    }
 }
