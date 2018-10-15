@@ -30,6 +30,13 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Sat, 01 Jan 2000 00:00:00 +0000', $payment->getParams()['best_before']);
     }
 
+    public function testSetCashVoucherData()
+    {
+        $payment = new Payment(100);
+        $payment->setCashVoucherData(['voucher' => 'ваучер']);
+        self::assertEquals('eyJ2b3VjaGVyIjoi0LLQsNGD0YfQtdGAIn0=', $payment->getParams()['cash_voucher_data']);
+    }
+
     public function testMagicMethods()
     {
         $payment = new Payment(100);

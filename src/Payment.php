@@ -124,6 +124,19 @@ class Payment
         return $this;
     }
 
+    /**
+     * Data for Orange Data provider (FZ-54)
+     *
+     * @param array $data
+     * @return Payment
+     */
+    public function setCashVoucherData(array $data): Payment
+    {
+        $this->params['cash_voucher_data'] = base64_encode(json_encode($data, JSON_UNESCAPED_UNICODE));
+
+        return $this;
+    }
+
     public function __call($name, $arguments)
     {
         if (strpos($name, 'set') === 0) {
